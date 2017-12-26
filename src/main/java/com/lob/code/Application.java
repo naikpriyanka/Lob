@@ -13,8 +13,8 @@ public class Application {
         InputFileReader inputFileReader = new InputFileReader();
         LetterHeader letterHeader = inputFileReader.read();
         InputFileProcessor inputFileProcessor = new InputFileProcessor();
-        inputFileProcessor.process(letterHeader);
+        String url = inputFileProcessor.process(letterHeader);
         OutputWriter outputWriter = new OutputWriter();
-        outputWriter.write();
+        System.out.println(outputWriter.write(url));
     }
 }

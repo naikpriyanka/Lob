@@ -1,57 +1,61 @@
 package com.lob.code.process;
 
 import com.lob.code.model.LetterHeader;
-import com.lob.exception.APIException;
-import com.lob.exception.AuthenticationException;
-import com.lob.exception.InvalidRequestException;
-import com.lob.exception.RateLimitException;
+import com.lob.code.model.Official;
+import com.lob.code.service.RepresentativeService;
 import com.lob.model.Address;
 import com.lob.model.Letter;
 import com.lob.net.LobResponse;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InputFileProcessor {
 
-    public void process(LetterHeader letterHeader) {
+    public String process(LetterHeader letterHeader) {
         Map<String, String> mergeVariables = new HashMap<>();
         mergeVariables.put("name", letterHeader.getName());
         mergeVariables.put("message", letterHeader.getMessage());
         final File file = new File("src/main/resources/letter.html");
         try {
-            LobResponse<Letter> response = new Letter.RequestBuilder()
-                    .setDescription("Demo Letter")
-                    .setFile(file)
-                    .setColor(true)
-                    .setMergeVariables(mergeVariables)
-                    .setTo(
-                            new Address.RequestBuilder()
-                                    .setName("Leore Avidar")
-                                    .setLine1(letterHeader.getAddressLine1())
-                                    .setLine2(letterHeader.getAddressLine2())
-                                    .setCity(letterHeader.getCity())
-                                    .setState(letterHeader.getState())
-                                    .setZip(letterHeader.getZipCode())
-                                    .setCountry(letterHeader.getCountry())
-                    )
-                    .setFrom(
-                            new Address.RequestBuilder()
-                                    .setName(letterHeader.getName())
-                                    .setLine1(letterHeader.getAddressLine1())
-                                    .setLine2(letterHeader.getAddressLine2())
-                                    .setCity(letterHeader.getCity())
-                                    .setState(letterHeader.getState())
-                                    .setZip(letterHeader.getZipCode())
-                                    .setCountry(letterHeader.getCountry())
-                    )
-                    .create();
+            LobResponse<Letter> response = getLetterRequest(letterHeader, mergeVariables, file).create();
             Letter letter = response.getResponseBody();
-            System.out.println(letter.toString());
-        } catch (APIException | IOException | InvalidRequestException | AuthenticationException | RateLimitException e) {
+            return letter.getUrl();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    private Letter.RequestBuilder getLetterRequest(LetterHeader letterHeader, Map<String, String> mergeVariables, File file) throws Exception {
+        return new Letter.RequestBuilder()
+                .setDescription("Lob Coding Challenge Letter")
+                .setFile(file)
+                .setColor(true)
+                .setMergeVariables(mergeVariables)
+                .setTo(getToAddress(letterHeader))
+                .setFrom(getFromAddress(letterHeader));
+    }
+
+    private Address.RequestBuilder getToAddress(LetterHeader letterHeader) throws Exception {
+        RepresentativeService representativeService = new RepresentativeService();
+        Official official = representativeService.getRepresentativesInfo(letterHeader);
+        return new Address.RequestBuilder()
+                .setName(official.getName())
+                .setLine1(official.getAddress().get(0).getLine1())
+                .setCity(official.getAddress().get(0).getCity())
+                .setState(official.getAddress().get(0).getState())
+                .setZip(official.getAddress().get(0).getZip());
+    }
+
+    private Address.RequestBuilder getFromAddress(LetterHeader letterHeader) {
+        return new Address.RequestBuilder()
+                .setName(letterHeader.getName())
+                .setLine1(letterHeader.getAddressLine1() + " " + letterHeader.getAddressLine2())
+                .setCity(letterHeader.getCity())
+                .setState(letterHeader.getState())
+                .setZip(letterHeader.getZipCode())
+                .setCountry(letterHeader.getCountry());
     }
 }

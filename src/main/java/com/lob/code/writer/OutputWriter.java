@@ -2,7 +2,7 @@ package com.lob.code.writer;
 
 public class OutputWriter {
 
-    public void write() {
-
+    public String write(String url) {
+        return url;
     }
 }
