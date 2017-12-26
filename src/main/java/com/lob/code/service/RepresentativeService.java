@@ -21,27 +21,7 @@ public class RepresentativeService {
     final static String SPACE = " ";
 
     public Official getRepresentativesInfo(LetterHeader letterHeader) throws Exception {
-        StringBuilder address = new StringBuilder();
-        address.append(letterHeader.getAddressLine1())
-                .append(SPACE)
-                .append(letterHeader.getAddressLine2())
-                .append(SPACE)
-                .append(letterHeader.getCity())
-                .append(SPACE)
-                .append(letterHeader.getState())
-                .append(SPACE)
-                .append(letterHeader.getCountry())
-                .append(SPACE)
-                .append(letterHeader.getZipCode());
-        URIBuilder uriBuilder = new URIBuilder();
-        uriBuilder.setScheme("https");
-        uriBuilder.setHost("www.googleapis.com");
-        uriBuilder.setPath("/civicinfo/v2/representatives");
-        uriBuilder.setParameter("address", address.toString());
-        uriBuilder.setParameter("includeOffices", "true");
-        uriBuilder.setParameter("roles", "legislatorUpperBody");
-        uriBuilder.setParameter("roles", "legislatorLowerBody");
-        uriBuilder.setParameter("key", "AIzaSyB1RijsGgGnpIuKXLXylqEZAJ3FpAS-iUk");
+        URIBuilder uriBuilder = getURL(letterHeader);
         try {
             String response = doGET(uriBuilder.toString());
             ObjectMapper mapper = new ObjectMapper();
@@ -56,6 +36,36 @@ public class RepresentativeService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private URIBuilder getURL(LetterHeader letterHeader) {
+        StringBuilder address = getAddress(letterHeader);
+        URIBuilder uriBuilder = new URIBuilder();
+        uriBuilder.setScheme("https");
+        uriBuilder.setHost("www.googleapis.com");
+        uriBuilder.setPath("/civicinfo/v2/representatives");
+        uriBuilder.setParameter("address", address.toString());
+        uriBuilder.setParameter("includeOffices", "true");
+        uriBuilder.setParameter("roles", "legislatorUpperBody");
+        uriBuilder.setParameter("roles", "legislatorLowerBody");
+        uriBuilder.setParameter("key", "AIzaSyB1RijsGgGnpIuKXLXylqEZAJ3FpAS-iUk");
+        return uriBuilder;
+    }
+
+    private StringBuilder getAddress(LetterHeader letterHeader) {
+        StringBuilder address = new StringBuilder();
+        address.append(letterHeader.getAddressLine1())
+                .append(SPACE)
+                .append(letterHeader.getAddressLine2())
+                .append(SPACE)
+                .append(letterHeader.getCity())
+                .append(SPACE)
+                .append(letterHeader.getState())
+                .append(SPACE)
+                .append(letterHeader.getCountry())
+                .append(SPACE)
+                .append(letterHeader.getZipCode());
+        return address;
     }
 
     private String doGET(String urlStr) throws IOException {
