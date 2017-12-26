@@ -1,7 +1,7 @@
 
-package com.lob.code.model;
+package com.lob.letter.sender.model;
 
-public class Address {
+public class NormalizedInput {
 
     private String line1;
     private String city;

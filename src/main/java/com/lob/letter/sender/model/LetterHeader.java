@@ -1,4 +1,4 @@
-package com.lob.code.model;
+package com.lob.letter.sender.model;
 
 public class LetterHeader {
 

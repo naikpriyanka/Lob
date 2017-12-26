@@ -1,10 +1,10 @@
-package com.lob.code;
+package com.lob.letter.sender;
 
 import com.lob.Lob;
-import com.lob.code.model.LetterHeader;
-import com.lob.code.process.InputFileProcessor;
-import com.lob.code.reader.InputFileReader;
-import com.lob.code.writer.OutputWriter;
+import com.lob.letter.sender.model.LetterHeader;
+import com.lob.letter.sender.process.InputFileProcessor;
+import com.lob.letter.sender.reader.InputFileReader;
+import com.lob.letter.sender.writer.OutputWriter;
 
 public class Application {
 

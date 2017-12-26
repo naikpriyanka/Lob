@@ -1,8 +1,8 @@
-package com.lob.code.process;
+package com.lob.letter.sender.process;
 
-import com.lob.code.model.LetterHeader;
-import com.lob.code.model.Official;
-import com.lob.code.service.RepresentativeService;
+import com.lob.letter.sender.model.LetterHeader;
+import com.lob.letter.sender.model.Official;
+import com.lob.letter.sender.service.RepresentativeService;
 import com.lob.model.Address;
 import com.lob.model.Letter;
 import com.lob.net.LobResponse;

@@ -1,5 +1,5 @@
 
-package com.lob.code.model;
+package com.lob.letter.sender.model;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.lob.code.reader;
+package com.lob.letter.sender.reader;
 
-import com.lob.code.model.LetterHeader;
+import com.lob.letter.sender.model.LetterHeader;
 
 import java.io.*;
 

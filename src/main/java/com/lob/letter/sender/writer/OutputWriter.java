@@ -1,4 +1,4 @@
-package com.lob.code.writer;
+package com.lob.letter.sender.writer;
 
 public class OutputWriter {
 

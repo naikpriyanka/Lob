@@ -1,10 +1,10 @@
-package com.lob.code.service;
+package com.lob.letter.sender.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lob.code.model.LetterHeader;
-import com.lob.code.model.Official;
-import com.lob.code.model.RepresentativeInfo;
+import com.lob.letter.sender.model.LetterHeader;
+import com.lob.letter.sender.model.Official;
+import com.lob.letter.sender.model.RepresentativeInfo;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.io.BufferedReader;
