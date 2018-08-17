@@ -1,4 +1,4 @@
-# Lob Coding Challenge
+# Lob
 
 Steps to run the application :
 
